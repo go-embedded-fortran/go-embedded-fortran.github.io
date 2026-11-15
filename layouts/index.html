@@ -19,13 +19,13 @@
   <div class="hero"><div class="wrap">
     <div>
       <h1 class="head">Fortran, embedded in Go.<br><span class="accent">Checked against gfortran, not against expectations.</span></h1>
-      <p class="sub">go-embedded-fortran is <b>in development</b>. Its repository, <b>fortran</b>, is at <b>v0.16.0</b>: a pure-Go front end (a parser and a semantic analyser), an evaluator that runs <b>all 14 golden programs byte-identical to gfortran 15.2.0</b>, an I/O runtime ported from flang-rt (<b>71 096 of 71 135</b> differential cases identical, the 39 others in documented classes), an oracle harness, and a measured gate whose first figures give the verdict <b>A first</b>. Known limits: the evaluator's scalar loops are 8x to 108x behind gfortran -O2 (#17), the gate's browser lane is not implemented (#5), and the evaluator does not run type extension, <code>select type</code>, pointer components, character arrays, <code>read</code> from a unit or complex variables yet. It is meant to back the <code>fortran</code> cells of <a href="https://github.com/go-notebook">go-notebook</a>.</p>
+      <p class="sub">go-embedded-fortran is <b>in development</b>. Its repository, <b>fortran</b>, is at <b>v0.17.0</b>, which runs go-notebook's <code>fortran</code> cells in one session (<code>eval.Session</code>; their variables stay in Fortran for now): a pure-Go front end (a parser and a semantic analyser), an evaluator that runs <b>all 14 golden programs byte-identical to gfortran 15.2.0</b>, an I/O runtime ported from flang-rt (<b>71 096 of 71 135</b> differential cases identical, the 39 others in documented classes), an oracle harness, and a measured gate whose first figures give the verdict <b>A first</b>. Known limits: the evaluator's scalar loops are 8x to 108x behind gfortran -O2 (#17), the gate's browser lane is not implemented (#5), and the evaluator does not run type extension, <code>select type</code>, pointer components, character arrays, <code>read</code> from a unit or complex variables yet. It is meant to back the <code>fortran</code> cells of <a href="https://github.com/go-notebook">go-notebook</a>.</p>
       {{ partial "cta.html" . }}
       <div class="trust"><span><b>v0.16.0</b>: M0 done, M1 to M4 in progress</span><span><b>{{ len .Site.Params.milestones }}</b> milestones, M0 to M6</span><span><b>pure Go</b></span></div>
     </div>
     <div class="term">
       <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">status</span></div>
-<pre style="white-space:pre;overflow-x:auto;tab-size:4">release   fortran v0.16.0
+<pre style="white-space:pre;overflow-x:auto;tab-size:4">release   fortran v0.17.0
 oracle    gfortran 15.2.0
 parse     FCVS 180/180 files
 eval      14/14 golden programs
@@ -38,7 +38,7 @@ goal      fortran cells in go-notebook</pre>
   </div></div>
 
   <div class="strip"><div class="wrap">
-    <span class="lead-line">{{ len .Site.Params.repos }} repositories — <b>fortran v0.16.0</b>: a front end, an evaluator and an I/O runtime, each checked against gfortran 15.2.0, and a gate that decides the back end</span>
+    <span class="lead-line">{{ len .Site.Params.repos }} repositories — <b>fortran v0.17.0</b>: a front end, an evaluator and an I/O runtime, each checked against gfortran 15.2.0, and a gate that decides the back end</span>
     <div class="mods">{{ range .Site.Params.repos }}<a href="{{ .href }}">{{ .name }}</a>{{ end }}</div>
   </div></div>
 
@@ -56,7 +56,7 @@ goal      fortran cells in go-notebook</pre>
   <section id="milestones" style="padding-top:10px"><div class="wrap">
     <span class="eyebrow">The plan</span>
     <h2>{{ len .Site.Params.milestones }} milestones, from an oracle to a conformance table.</h2>
-    <p class="lead">States are the status table of the <code>fortran</code> README at v0.16.0.</p>
+    <p class="lead">States are the status table of the <code>fortran</code> README at v0.17.0.</p>
     <div class="road">
       {{ range .Site.Params.milestones }}
       <div class="ph">
@@ -70,7 +70,7 @@ goal      fortran cells in go-notebook</pre>
   <section id="measured" style="padding-top:10px"><div class="wrap">
     <span class="eyebrow">Measured</span>
     <h2>What was run, and what was not.</h2>
-    <p class="lead">Every number below is copied from the <code>fortran</code> README at v0.16.0. Where the machine was too loaded to measure, no figure is published.</p>
+    <p class="lead">Every number below is copied from the <code>fortran</code> README at v0.17.0. Where the machine was too loaded to measure, no figure is published.</p>
     <div class="grid">
       {{ range .Site.Params.measured }}
       <div class="card"><h3>{{ .name }}</h3><p>{{ .what | safeHTML }}</p></div>
@@ -100,6 +100,6 @@ goal      fortran cells in go-notebook</pre>
     </div>
   </div></section>
 
-  <footer><div class="wrap"><span>go-embedded-fortran · <a href="https://github.com/go-embedded-fortran">go-embedded-fortran on GitHub</a>{{ if not (partial "mantra-on.html" .) }} · BSD-3-Clause · CGO_ENABLED=0{{ end }}</span><span>fortran v0.16.0 · in development</span></div></footer>
+  <footer><div class="wrap"><span>go-embedded-fortran · <a href="https://github.com/go-embedded-fortran">go-embedded-fortran on GitHub</a>{{ if not (partial "mantra-on.html" .) }} · BSD-3-Clause · CGO_ENABLED=0{{ end }}</span><span>fortran v0.17.0 · in development</span></div></footer>
 </body>
 </html>

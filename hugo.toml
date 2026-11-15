@@ -16,16 +16,16 @@ disableKinds = ['taxonomy', 'term', 'rss', 'sitemap', '404']
     path = "github.com/go-fleettools/landingkit"
 
 [params]
-  description = "go-embedded-fortran (in development, fortran v0.16.0): Fortran in pure Go, with a front end (syntax and semantic analysis), an evaluator that runs all 14 golden programs byte-identical to gfortran 15.2.0, an I/O runtime ported from flang-rt, an oracle harness and a measured gate, for the fortran cells of go-notebook."
+  description = "go-embedded-fortran (in development, fortran v0.17.0): Fortran in pure Go, with a front end (syntax and semantic analysis), an evaluator that runs all 14 golden programs byte-identical to gfortran 15.2.0 and the cells of a notebook one after the other, an I/O runtime ported from flang-rt, an oracle harness and a measured gate, for the fortran cells of go-notebook."
 
 # Every field below is rendered by layouts/index.html. A field nothing renders
 # does not stay true. Every figure is copied from the README of
-# go-embedded-fortran/fortran at v0.16.0; none is new.
+# go-embedded-fortran/fortran at v0.17.0; none is new.
 [[params.repos]]
   name  = "fortran"
   kind  = "source"
   href  = "https://github.com/go-embedded-fortran/fortran"
-  blurb = "The implementation, <code>github.com/go-embedded-fortran/fortran</code>, latest release v0.16.0: the <code>syntax</code> parser, the <code>sema</code> analyser, the <code>eval</code> evaluator, the <code>rt</code> I/O runtime ported from flang-rt, the <code>foracle</code> oracle harness and the gate of bib section 4.2. Open defects: loop speed 8x to 108x behind gfortran (#17), the gate's browser lane (#5)."
+  blurb = "The implementation, <code>github.com/go-embedded-fortran/fortran</code>, latest release v0.17.0: the <code>syntax</code> parser, the <code>sema</code> analyser, the <code>eval</code> evaluator, the <code>rt</code> I/O runtime ported from flang-rt, the <code>foracle</code> oracle harness and the gate of bib section 4.2. Open defects: loop speed 8x to 108x behind gfortran (#17), the gate's browser lane (#5)."
 [[params.repos]]
   name  = "docs"
   kind  = "site"
@@ -65,7 +65,7 @@ disableKinds = ['taxonomy', 'term', 'rss', 'sitemap', '404']
   what = "Bib section 4.2 chooses between A, a pure-Go evaluator, and B, lowering to go-embedded-c's IR compiled to wasm32. The rule is implemented once with its thresholds (5, 2, 1.2) pinned by a test, and a checksum out of its bound is a failure, not a time."
 [[params.scope]]
   name = "For go-notebook"
-  what = "The <code>fortran</code> cells of <a href=\"https://github.com/go-notebook\">go-notebook</a>, as go-embedded-c backs its C cells. <code>sema.Session</code> splits cells into a session module and a run subroutine and carries what go-notebook's graph needs; the go-notebook adapter is not written yet."
+  what = "The <code>fortran</code> cells of <a href=\"https://github.com/go-notebook\">go-notebook</a>, as go-embedded-c backs its C cells. <code>sema.Session</code> splits cells into a session module and a run subroutine and carries what go-notebook's graph needs, and since v0.17.0 <code>eval.Session</code> runs the cells one after the other: variables keep their values, modules, types and procedures persist, and an infinite loop is stopped by a step bound and the context. go-notebook v0.17.0 links it (<code>fcells</code>). The variables stay in Fortran, as R's do: they do not cross to the other languages yet, and the playground's core does not link the runtime yet."
 [[params.scope]]
   name = "Licences kept clean"
   what = "BSD 3-Clause. What is only run, gfortran and the GPL test corpora, is listed in <code>NOTICE</code> and never linked, ported or committed; the I/O runtime keeps the notice of the flang-rt files it ports."
@@ -100,8 +100,8 @@ disableKinds = ['taxonomy', 'term', 'rss', 'sitemap', '404']
 [[params.milestones]]
   id    = "M5"
   name  = "Notebook bridge"
-  state = "planned"
-  what  = "The values table, <code>file:line</code> errors, and cells on desktop and playground."
+  state = "in progress"
+  what  = "<code>eval.Session</code> runs cells one after the other (v0.17.0) and go-notebook's <code>fcells</code> package links it; errors are positioned. Variables do not cross to other languages yet, and the playground's core does not link it yet."
 [[params.milestones]]
   id    = "M6"
   name  = "Conformance"
@@ -109,7 +109,7 @@ disableKinds = ['taxonomy', 'term', 'rss', 'sitemap', '404']
   what  = "FCVS, gfortran.dg run tests, reference LAPACK built by our front end, and the performance table."
 
 # The cards of #measured. Every number is copied from the README of
-# go-embedded-fortran/fortran at v0.16.0.
+# go-embedded-fortran/fortran at v0.17.0.
 [[params.measured]]
   name = "71 096 of 71 135 I/O cases identical"
   what = "<code>rt</code> against gfortran 15.2.0, byte for byte (formats times values, including &plusmn;0, denormals, infinities, NaN, field overflow and errors with <code>iostat</code>). The 39 others are in documented classes: 26 are <code>EN</code> with many digits, 13 are input corner cases. 0 are unexplained."
