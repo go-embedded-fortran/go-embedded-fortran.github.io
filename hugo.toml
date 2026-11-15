@@ -1,0 +1,153 @@
+baseURL = 'https://go-embedded-fortran.github.io/'
+locale  = 'en-us'
+title   = 'go-embedded-fortran'
+# No theme -- the layout is the go-* family template: one self-contained
+# layouts/index.html, and the shared design (styles, theme toggle, fork ribbon,
+# icons) imported as the Hugo module github.com/go-fleettools/landingkit,
+# pinned in go.mod.
+
+disableKinds = ['taxonomy', 'term', 'rss', 'sitemap', '404']
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[module]
+  [[module.imports]]
+    path = "github.com/go-fleettools/landingkit"
+
+[params]
+  description = "go-embedded-fortran (in development, fortran v0.16.0): Fortran in pure Go, with a front end (syntax and semantic analysis), an evaluator that runs all 14 golden programs byte-identical to gfortran 15.2.0, an I/O runtime ported from flang-rt, an oracle harness and a measured gate, for the fortran cells of go-notebook."
+
+# Every field below is rendered by layouts/index.html. A field nothing renders
+# does not stay true. Every figure is copied from the README of
+# go-embedded-fortran/fortran at v0.16.0; none is new.
+[[params.repos]]
+  name  = "fortran"
+  kind  = "source"
+  href  = "https://github.com/go-embedded-fortran/fortran"
+  blurb = "The implementation, <code>github.com/go-embedded-fortran/fortran</code>, latest release v0.16.0: the <code>syntax</code> parser, the <code>sema</code> analyser, the <code>eval</code> evaluator, the <code>rt</code> I/O runtime ported from flang-rt, the <code>foracle</code> oracle harness and the gate of bib section 4.2. Open defects: loop speed 8x to 108x behind gfortran (#17), the gate's browser lane (#5)."
+[[params.repos]]
+  name  = "docs"
+  kind  = "site"
+  href  = "https://go-embedded-fortran.github.io/docs/"
+  blurb = "The documentation (Hugo + Hextra): the status, the oracle, the gate and its figures, and the limits. <a href=\"https://github.com/go-embedded-fortran/docs\">Source →</a>"
+[[params.repos]]
+  name  = "brand"
+  kind  = "assets"
+  href  = "https://github.com/go-embedded-fortran/brand"
+  blurb = "Logos and icons for the organization, in SVG / PNG / JPG / ICO / ICNS across colour, white and black variants. The mark is Fortran's double colon, <code>::</code>."
+
+# The hero's buttons; the kit renders them in its own order.
+[[params.cta]]
+  kind  = "docs"
+  href  = "https://go-embedded-fortran.github.io/docs/"
+  label = "Read the docs →"
+[[params.cta]]
+  kind  = "github"
+  href  = "https://github.com/go-scikit/roadmap/blob/main/bib/fortran.md"
+  label = "The bibliography →"
+
+# The cards of #scope.
+[[params.scope]]
+  name = "A front end, written in Go"
+  what = "<code>syntax</code> is a lexer and recursive-descent parser (free and fixed form, <code>include</code>, byte offsets that resolve to <code>file:line:col</code>), written from the clauses of F2018 (J3/18-007r1) it cites. <code>sema</code> turns a parsed file into a typed tree: scopes and symbols, implicit typing, kinds, constants, expression typing, <code>use</code>, derived types, generic resolution, argument association and shape conformance."
+[[params.scope]]
+  name = "An evaluator, checked against gfortran"
+  what = "<code>eval</code> compiles the typed tree into closures over typed slots and runs all 14 golden programs byte-identical to their goldens (stdout, stderr and exit status), which gfortran 15.2.0 produced. It refuses what it does not run with a positioned error."
+[[params.scope]]
+  name = "An I/O runtime from flang-rt"
+  what = "<code>rt</code> is the formatted and list-directed input and output, ported from LLVM flang-rt (llvmorg-23.1.4, Apache-2.0 WITH LLVM-exception) and made to print what gfortran 15.2.0 prints, because that is what a notebook's <code>print *</code> shows. A statement on a warm unit allocates nothing."
+[[params.scope]]
+  name = "An oracle, never a dependency"
+  what = "The reference is gfortran 15.2.0, run natively. It is GPL and is only ever run as a program, never linked or ported. <code>foracle</code> installs it without root, and \"correct\" means the same exit status and the same stdout and stderr bytes."
+[[params.scope]]
+  name = "A gate that decides the back end"
+  what = "Bib section 4.2 chooses between A, a pure-Go evaluator, and B, lowering to go-embedded-c's IR compiled to wasm32. The rule is implemented once with its thresholds (5, 2, 1.2) pinned by a test, and a checksum out of its bound is a failure, not a time."
+[[params.scope]]
+  name = "For go-notebook"
+  what = "The <code>fortran</code> cells of <a href=\"https://github.com/go-notebook\">go-notebook</a>, as go-embedded-c backs its C cells. <code>sema.Session</code> splits cells into a session module and a run subroutine and carries what go-notebook's graph needs; the go-notebook adapter is not written yet."
+[[params.scope]]
+  name = "Licences kept clean"
+  what = "BSD 3-Clause. What is only run, gfortran and the GPL test corpora, is listed in <code>NOTICE</code> and never linked, ported or committed; the I/O runtime keeps the notice of the flang-rt files it ports."
+
+# The cards of #milestones, in order. state is "done", "in progress" or
+# "planned", as the README's status table says.
+[[params.milestones]]
+  id    = "M0"
+  name  = "Oracle harness"
+  state = "done"
+  what  = "Done: <code>internal/oracle</code>, <code>cmd/foracle</code>, pinned gfortran 15.2.0, a golden file, a corpus runner and the reference column of the gate."
+[[params.milestones]]
+  id    = "M1"
+  name  = "Front end, part 1"
+  state = "in progress"
+  what  = "Syntax done: a lexer (free and fixed form, continuation, <code>include</code>) and a parser. Of the files gfortran accepts, the parser accepts 100 % of FCVS (180 files), 99.7 % of the gfortran torture suite (314 files) and 98.0 % of <code>gfortran.dg</code> (8 306 files). Open: the playground side of the gate."
+[[params.milestones]]
+  id    = "M2"
+  name  = "Front end, part 2"
+  state = "in progress"
+  what  = "The package <code>sema</code> (scopes, symbols, implicit typing, kinds, constants, expression typing, <code>use</code>, derived types), the cell splitter, the session module and the go-notebook-facing analysis, generic resolution, argument association, explicit-interface requirements and <code>intent</code> at calls, and shape conformance. <code>eval</code> consumes the typed tree. Remaining semantics are listed under Not yet in the README."
+[[params.milestones]]
+  id    = "M3"
+  name  = "Back end"
+  state = "in progress"
+  what  = "As the gate decides: A, a closure compiler over the typed tree, or B, lowering to go-embedded-c's IR. The status table lists it as planned; the package <code>eval</code> is the seed of M3-A and grows in parts (v0.11.0 to v0.16.0: kinds and control flow, procedures, modules and characters, arrays, substrings and internal files, derived types). Not yet: type extension, <code>select type</code> and dynamic dispatch, pointer components, character arrays, <code>read</code> from a unit, complex variables, optional arguments."
+[[params.milestones]]
+  id    = "M4"
+  name  = "Runtime"
+  state = "in progress"
+  what  = "The package <code>rt</code> (formatted and list-directed input and output, units, internal files), ported from flang-rt; <code>eval</code>'s print and write run on it. The elemental intrinsics and the rest of the runtime are open."
+[[params.milestones]]
+  id    = "M5"
+  name  = "Notebook bridge"
+  state = "planned"
+  what  = "The values table, <code>file:line</code> errors, and cells on desktop and playground."
+[[params.milestones]]
+  id    = "M6"
+  name  = "Conformance"
+  state = "planned"
+  what  = "FCVS, gfortran.dg run tests, reference LAPACK built by our front end, and the performance table."
+
+# The cards of #measured. Every number is copied from the README of
+# go-embedded-fortran/fortran at v0.16.0.
+[[params.measured]]
+  name = "71 096 of 71 135 I/O cases identical"
+  what = "<code>rt</code> against gfortran 15.2.0, byte for byte (formats times values, including &plusmn;0, denormals, infinities, NaN, field overflow and errors with <code>iostat</code>). The 39 others are in documented classes: 26 are <code>EN</code> with many digits, 13 are input corner cases. 0 are unexplained."
+[[params.measured]]
+  name = "14 of 14 golden programs"
+  what = "<code>eval</code> runs all 14 golden programs of <code>testdata/programs</code> and each is byte-identical to its golden: stdout, stderr and exit status."
+[[params.measured]]
+  name = "Parse rate on three corpora"
+  what = "FCVS: 180 of 180 files parse. gfortran torture: 313 of 314 (99.7 %). <code>gfortran.dg</code>: 7 496 of 8 306 (90.2 %), where gfortran itself accepts 6 096 and many files exist to be refused."
+[[params.measured]]
+  name = "Semantic analysis against gfortran"
+  what = "On <code>gfortran.dg</code> (8 306 files), both accept 5 753 files, 291 are refused only by us (125 by the parser, 166 by the analyser) and 1 202 are accepted only by us, because they are written to be refused for reasons not checked yet."
+[[params.measured]]
+  name = "The gate, desktop home (2026-11-14, v0.10.0)"
+  what = "darwin/arm64, one core, 7 interleaved rounds. Time over gfortran -O2 on the loop kernels: K1 8.33, K2 93.31, K3L 108.06 for contender A. Array kernels against direct go-ndarray: K4 0.793, K3 matmul 1.065. g(rA)/g(rB0) = 0.683. <strong>Verdict: A first</strong>, between; re-gate after go-embedded-c M3."
+[[params.measured]]
+  name = "Not measured"
+  what = "Parse throughput against <code>gfortran -fsyntax-only</code>, analysis time and I/O throughput were not measured: the machine's load was above the bound of 8, so the tools refused and no figure is published rather than a loaded one. The gate's playground home is not measured either (#5)."
+
+[params.brand]
+# Generated by go-fleettools/landingkit from static/img/logo.svg: the colours are
+# READ from the logo's gradient, never chosen. Do not add other keys:
+# neutrals (backgrounds, surfaces, greys) belong to the shared sheet.
+# Contrast: base on white 7.88:1, bright on the dark background 7.29:1.
+  base = "#9d174d"
+  deep = "#600e2f"
+  bright = "#f472b6"
+  shadow = "rgba(157,23,77,.7)"
+  glow = "rgba(157,23,77,.6)"
+  wash = "rgba(157,23,77,.10)"
+  washDeep = "rgba(96,14,47,.06)"
+  chipBg = "#feeef6"
+  chipBorder = "#fcd5e9"
+  chipFg = "#600e2f"
+  chipBgDark = "rgba(244,114,182,.14)"
+  chipBorderDark = "rgba(244,114,182,.32)"
+  chipFgDark = "#f9b1d7"
+  statsEnd = "#fcdded"
+  bandText = "#fde8f3"
+  accent = "#9d174d"
+  accentDark = "#f472b6"
