@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Site.Title }} — Fortran, embedded in Go. In development.</title>
+<meta name="description" content="{{ .Site.Params.description }}">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+{{ partial "styles.html" . }}
+</head>
+<body class="lm">
+  <header class="nav"><div class="wrap">
+    <a class="brand" href="/"><img class="glyph" src="/img/logo.svg" width="32" height="32" alt="go-embedded-fortran logo"> {{ .Site.Title }}</a>
+    <nav><a href="#scope">Scope</a><a href="#milestones">Milestones</a><a href="#measured">Measured</a><a href="#repos">Repositories</a></nav>
+    {{ partial "theme-toggle.html" . }}
+  </div></header>
+  {{ partial "fork-ribbon.html" "https://github.com/go-embedded-fortran" }}
+
+  <div class="hero"><div class="wrap">
+    <div>
+      <h1 class="head">Fortran, embedded in Go.<br><span class="accent">Checked against gfortran, not against expectations.</span></h1>
+      <p class="sub">go-embedded-fortran is <b>in development</b>. Its repository, <b>fortran</b>, is at <b>v0.16.0</b>: a pure-Go front end (a parser and a semantic analyser), an evaluator that runs <b>all 14 golden programs byte-identical to gfortran 15.2.0</b>, an I/O runtime ported from flang-rt (<b>71 096 of 71 135</b> differential cases identical, the 39 others in documented classes), an oracle harness, and a measured gate whose first figures give the verdict <b>A first</b>. Known limits: the evaluator's scalar loops are 8x to 108x behind gfortran -O2 (#17), the gate's browser lane is not implemented (#5), and the evaluator does not run type extension, <code>select type</code>, pointer components, character arrays, <code>read</code> from a unit or complex variables yet. It is meant to back the <code>fortran</code> cells of <a href="https://github.com/go-notebook">go-notebook</a>.</p>
+      {{ partial "cta.html" . }}
+      <div class="trust"><span><b>v0.16.0</b>: M0 done, M1 to M4 in progress</span><span><b>{{ len .Site.Params.milestones }}</b> milestones, M0 to M6</span><span><b>pure Go</b></span></div>
+    </div>
+    <div class="term">
+      <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">status</span></div>
+<pre style="white-space:pre;overflow-x:auto;tab-size:4">release   fortran v0.16.0
+oracle    gfortran 15.2.0
+parse     FCVS 180/180 files
+eval      14/14 golden programs
+rt        71096/71135 I/O cases
+gate      verdict: A first
+open      #17 loops 8x-108x behind
+open      #5 browser lane
+goal      fortran cells in go-notebook</pre>
+    </div>
+  </div></div>
+
+  <div class="strip"><div class="wrap">
+    <span class="lead-line">{{ len .Site.Params.repos }} repositories — <b>fortran v0.16.0</b>: a front end, an evaluator and an I/O runtime, each checked against gfortran 15.2.0, and a gate that decides the back end</span>
+    <div class="mods">{{ range .Site.Params.repos }}<a href="{{ .href }}">{{ .name }}</a>{{ end }}</div>
+  </div></div>
+
+  <section id="scope"><div class="wrap">
+    <span class="eyebrow">What it is</span>
+    <h2>Fortran's semantics, written in Go.</h2>
+    <p class="lead">A front end, an evaluator and a runtime in pure Go, each stage checked against a reference. The plan is the roadmap's <a href="https://github.com/go-scikit/roadmap/blob/main/bib/fortran.md">bibliography</a>.</p>
+    <div class="grid">
+      {{ range .Site.Params.scope }}
+      <div class="card"><h3>{{ .name }}</h3><p>{{ .what | safeHTML }}</p></div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section id="milestones" style="padding-top:10px"><div class="wrap">
+    <span class="eyebrow">The plan</span>
+    <h2>{{ len .Site.Params.milestones }} milestones, from an oracle to a conformance table.</h2>
+    <p class="lead">States are the status table of the <code>fortran</code> README at v0.16.0.</p>
+    <div class="road">
+      {{ range .Site.Params.milestones }}
+      <div class="ph">
+        <div class="top"><h4>{{ .id }} · {{ .name }}</h4><span class="tag active">{{ .state }}</span></div>
+        <p>{{ .what | safeHTML }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section id="measured" style="padding-top:10px"><div class="wrap">
+    <span class="eyebrow">Measured</span>
+    <h2>What was run, and what was not.</h2>
+    <p class="lead">Every number below is copied from the <code>fortran</code> README at v0.16.0. Where the machine was too loaded to measure, no figure is published.</p>
+    <div class="grid">
+      {{ range .Site.Params.measured }}
+      <div class="card"><h3>{{ .name }}</h3><p>{{ .what | safeHTML }}</p></div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section id="scope-honest" style="padding-top:20px"><div class="wrap">
+    <div class="band">
+      <h2>A first evaluator, and honest about it.</h2>
+      <p>On the gate's scalar loops, the evaluator is 8x to 108x behind gfortran -O2 (8.33 on K1, 93.31 on K2, 108.06 on K3L), an open defect (#17). The desktop ratio is at most 2 and both array kernels are within 1.2 of direct go-ndarray, but the playground home is not measured (#5), so the rule cannot pick A outright: the verdict is "A first", and it is to be re-gated after go-embedded-c M3.</p>
+      <a class="btn btn-ghost" href="https://go-embedded-fortran.github.io/docs/">{{ partial "icons/book.html" . }}The status, the oracle and the gate →</a>
+    </div>
+  </div></section>
+
+  <section id="repos" style="padding-top:6px"><div class="wrap">
+    <span class="eyebrow">Repositories</span>
+    <h2>What is here.</h2>
+    <p class="lead">The organization holds the implementation, <a href="https://github.com/go-embedded-fortran/fortran">fortran</a>, and its documentation and brand.</p>
+    <div class="road">
+      {{ range .Site.Params.repos }}
+      <div class="ph">
+        <div class="top"><h4><a href="{{ .href }}">{{ .name }}</a></h4><span class="tag active">{{ .kind }}</span></div>
+        <p>{{ .blurb | safeHTML }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><span>go-embedded-fortran · <a href="https://github.com/go-embedded-fortran">go-embedded-fortran on GitHub</a>{{ if not (partial "mantra-on.html" .) }} · BSD-3-Clause · CGO_ENABLED=0{{ end }}</span><span>fortran v0.16.0 · in development</span></div></footer>
+</body>
+</html>
