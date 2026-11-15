@@ -5,8 +5,9 @@ The documentation is at <https://go-embedded-fortran.github.io/docs/> (repositor
 [go-embedded-fortran/docs](https://github.com/go-embedded-fortran/docs)).
 
 The organization is **in development**. Every figure on the page is copied from the
-README of `go-embedded-fortran/fortran` at v0.16.0: the evaluator runs all 14 golden
-programs byte-identical to gfortran 15.2.0, the I/O runtime is identical to it on
+README of `go-embedded-fortran/fortran` at v0.17.0: the evaluator runs all 14 golden
+programs byte-identical to gfortran 15.2.0 and, since v0.17.0, a notebook's cells one
+after the other (`eval.Session`, linked by go-notebook v0.17.0), the I/O runtime is identical to it on
 71 096 of 71 135 differential cases (39 in documented classes), and the gate's first
 figures give the verdict "A first". The page states the open defects: loop speed 8x to
 108x behind gfortran -O2 (#17) and the gate's browser lane (#5). Its plan is the
